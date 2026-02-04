@@ -1,5 +1,8 @@
 include LICENSE
 include requirements.txt
-recursive-include cra5 *
-recursive-include cra5 *.cpp *.hpp
-recursive-include third_party *.h
+include README.md
+include Readme.md
+recursive-include cra5 *.py
+recursive-include cra5 *.cpp *.hpp *.h
+recursive-include cra5/api *.json
+recursive-include cra5/dataset *.json

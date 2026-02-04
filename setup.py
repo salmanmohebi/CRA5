@@ -60,39 +60,40 @@ def write_version_file():
 write_version_file()
 
 def get_extensions():
-    ext_dirs = cwd / package_name / "compressai/cpp_exts"
+    ext_dirs = cwd / package_name / "models/compressai/cpp_exts"
     print(ext_dirs)
     ext_modules = []
 
-    # Add rANS module
-    rans_lib_dir = cwd / "third_party/ryg_rans"
-    rans_ext_dir = ext_dirs / "rans"
+    # Note: C++ extensions are disabled by default
+    # Uncomment and configure if you need them
+    
+    # # Add rANS module
+    # rans_ext_dir = ext_dirs / "rans"
+    # extra_compile_args = ["-std=c++17"]
+    # if os.getenv("DEBUG_BUILD", None):
+    #     extra_compile_args += ["-O0", "-g", "-UNDEBUG"]
+    # else:
+    #     extra_compile_args += ["-O3"]
+    # ext_modules.append(
+    #     Pybind11Extension(
+    #         name=f"{package_name}.ans",
+    #         sources=[str(s) for s in rans_ext_dir.glob("*.cpp")],
+    #         language="c++",
+    #         include_dirs=[rans_ext_dir],
+    #         extra_compile_args=extra_compile_args,
+    #     )
+    # )
 
-    extra_compile_args = ["-std=c++17"]
-    if os.getenv("DEBUG_BUILD", None):
-        extra_compile_args += ["-O0", "-g", "-UNDEBUG"]
-    else:
-        extra_compile_args += ["-O3"]
-    ext_modules.append(
-        Pybind11Extension(
-            name=f"{package_name}.ans",
-            sources=[str(s) for s in rans_ext_dir.glob("*.cpp")],
-            language="c++",
-            include_dirs=[rans_lib_dir, rans_ext_dir],
-            extra_compile_args=extra_compile_args,
-        )
-    )
-
-    # Add ops
-    ops_ext_dir = ext_dirs / "ops"
-    ext_modules.append(
-        Pybind11Extension(
-            name=f"{package_name}._CXX",
-            sources=[str(s) for s in ops_ext_dir.glob("*.cpp")],
-            language="c++",
-            extra_compile_args=extra_compile_args,
-        )
-    )
+    # # Add ops
+    # ops_ext_dir = ext_dirs / "ops"
+    # ext_modules.append(
+    #     Pybind11Extension(
+    #         name=f"{package_name}._CXX",
+    #         sources=[str(s) for s in ops_ext_dir.glob("*.cpp")],
+    #         language="c++",
+    #         extra_compile_args=extra_compile_args,
+    #     )
+    # )
 
     return ext_modules
 
@@ -128,39 +129,40 @@ setup(
     name=package_name,
     version=version,
     description="A large compression model for weather and climate data.",
-    url="https://github.com/taohan10200/CRA5",
-    py_modules=['cra5'],
+    url="https://github.com/salmanmohebi/CRA5",
     author="HAN Tao",
     author_email="hantao10200@gmail.com",
-    packages=find_packages(exclude=("tests",)),
+    packages=find_packages(exclude=("tests", "examples", "config", "assets")),
     include_package_data=True,
     zip_safe=False,
     python_requires=">=3.8",
     install_requires=[
-        "yapf",
-        "cdsapi",
-        "einops",
-        "numpy==1.25.0",
-        "pandas",
-        "scipy",
-        "matplotlib",
-        "torchvision>=0.15.0, <0.19.0",
-        "torch>=1.7.1, <2.2.0",
-        "torch-geometric>=2.3.0",
-        "typing-extensions>=4.0.0",
-        "pytorch-msssim",
-        "tqdm",
-        "cdsapi",
-        "rich",
-        "addict==2.4.0",
-        "dict_recursive_update==1.0.1",
-        "h5py==3.9.0",
-        "packaging==24.1",
-        "Pillow==10.4.0",
-        "timm==0.9.2",
-        "xarray==2023.7.0",
-        "netcdf4",
-        "compressai",
+        "yapf>=0.43.0",
+        "cdsapi>=0.7.0",
+        "einops>=0.7.0",
+        "numpy>=1.25.0",
+        "pandas>=1.5.0",
+        "scipy>=1.12.0",
+        "matplotlib>=3.8.0",
+        "torchvision>=0.16.0",
+        "torch>=2.1.0",
+        "torch-geometric>=2.7.0",
+        "typing-extensions>=4.10.0",
+        "pytorch-msssim>=1.0.0",
+        "tqdm>=4.66.0",
+        "rich>=13.7.0",
+        "addict>=2.4.0",
+        "dict-recursive-update>=1.0.1",
+        "h5py>=3.9.0",
+        "packaging>=24.1",
+        "Pillow>=10.4.0",
+        "timm>=0.9.2",
+        "xarray>=2023.7.0",
+        "netCDF4>=1.6.5",
+        "compressai>=1.2.8",
+        "opencv-python>=4.5.0",
+        "scikit-learn>=1.0.0",
+        "regex>=2023.12.0",
     ],
     extras_require=get_extra_requirements(),
     license="BSD 3-Clause Clear License",
